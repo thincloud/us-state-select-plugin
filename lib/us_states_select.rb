@@ -1,8 +1,10 @@
+require "us-state-select-plugin/version"
+
 module ActionView
   module Helpers
     module FormOptionsHelper
       def us_state_options_for_select(selected = nil, us_state_options = {})
-        state_options      = ""
+        state_options      = "".html_safe
         priority_states    = lambda { |state| us_state_options[:priority].include?(state.last) }
         us_state_options[:show] = :full if us_state_options[:with_abbreviation]
         states_label = case us_state_options[:show]
@@ -14,12 +16,12 @@ module ActionView
         end
 
         if us_state_options[:include_blank]
-          state_options += "<option value=\"\">--</option>\n"
+          state_options += "<option value=\"\">--</option>\n".html_safe
         end
 
         if us_state_options[:priority]
           state_options += options_for_select(US_STATES.select(&priority_states).collect(&states_label), selected)
-          state_options += "<option value=\"\">--</option>\n"
+          state_options += "<option value=\"\">--</option>\n".html_safe
         end
 
         if us_state_options[:priority] && us_state_options[:priority].include?(selected)
